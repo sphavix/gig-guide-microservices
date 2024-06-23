@@ -1,0 +1,6 @@
+@Gigs.Api_HostAddress = http://localhost:5062
+
+GET {{Gigs.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
