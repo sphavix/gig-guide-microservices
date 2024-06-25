@@ -1,13 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
+import axios from 'axios';
+import { Header, List } from 'semantic-ui-react';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [gigs, setGigs] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5001/api/gigs')
+        .then(respons => {
+          setGigs(respons.data)
+        })
+  }, [])
 
   return (
-    <h2>Local Gigs</h2>
+    <div>
+      <Header as='h2' icon='users' content='Local Gigs' />
+      <List>
+        {
+          gigs.map((gig: any) => (
+            <List.Item key={gig.id}>
+              {gig.title}
+            </List.Item>
+          ))
+        }
+      </List>
+    </div>
   )
 }
 
