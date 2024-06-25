@@ -1,3 +1,4 @@
+using System.Reflection;
 using Gigs.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,10 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader();
     });
 });
+
+builder.Services.AddMediatR(config => config
+    .RegisterServicesFromAssemblyContaining(typeof(Program)));
+
 
 var app = builder.Build();
 

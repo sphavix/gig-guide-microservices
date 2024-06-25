@@ -1,5 +1,7 @@
+using Gigs.Application.Queries;
 using Gigs.Domain.Entities;
 using Gigs.Infrastructure.Data;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,22 +10,24 @@ namespace Gigs.Api.Controllers
 {
     public class GigsController : BaseApiController
     {
-        private readonly ApplicationDbContext _context;
-        public GigsController(ApplicationDbContext context)
+        private readonly IMediator _mediator;
+        public GigsController(IMediator mediator)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Gig>>> GetGigs()
         {
-            return await _context.Gigs.ToListAsync();
+            var gigs = await _mediator.Send(new GetGigsQuery());
+            return Ok(gigs);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Gig>> GetGig(Guid id)
         {
-            return await _context.Gigs.FindAsync(id);
+            var gig = await _mediator.Send(new GetGigByIdQuery { Id = id });
+            return Ok(gig);
         }
     }
 }
