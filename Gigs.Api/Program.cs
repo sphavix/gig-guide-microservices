@@ -1,4 +1,5 @@
 using System.Reflection;
+using Gigs.Application.Handlers;
 using Gigs.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,9 +23,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddMediatR(config => config
-    .RegisterServicesFromAssemblyContaining(typeof(Program)));
-
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetGigByIdQueryHandler).Assembly));
 
 var app = builder.Build();
 
