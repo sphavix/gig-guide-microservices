@@ -1,10 +1,15 @@
-using Gigs.Domain.Entities;
+using Gigs.Application.Responses;
 using MediatR;
 
 namespace Gigs.Application.Queries
 {
-    public class GetGigByIdQuery : IRequest<Gig>
+    public class GetGigByIdQuery : IRequest<GigsResponse>
     {
         public Guid Id { get; set; }
+
+        public GetGigByIdQuery(Guid id)
+        {
+            Id = id;
+        }
     }
 }

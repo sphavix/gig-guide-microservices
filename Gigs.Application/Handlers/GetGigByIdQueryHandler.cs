@@ -1,22 +1,25 @@
+using Gigs.Application.Mappers;
 using Gigs.Application.Queries;
-using Gigs.Domain.Entities;
-using Gigs.Infrastructure.Data;
+using Gigs.Application.Responses;
+using Gigs.Domain.Repositories;
 using MediatR;
 
 namespace Gigs.Application.Handlers
 {
-    public class GetGigByIdQueryHandler : IRequestHandler<GetGigByIdQuery, Gig>
+    public class GetGigByIdQueryHandler : IRequestHandler<GetGigByIdQuery, GigsResponse>
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IGigsRepository _gigsRepository;
 
-        public GetGigByIdQueryHandler(ApplicationDbContext dbContext)
+        public GetGigByIdQueryHandler(IGigsRepository gigsRepository)
         {
-            _dbContext = dbContext;
+            _gigsRepository = gigsRepository ?? throw new ArgumentNullException(nameof(gigsRepository));
         }
 
-        public async Task<Gig> Handle(GetGigByIdQuery request, CancellationToken cancellationToken)
+        public async Task<GigsResponse> Handle(GetGigByIdQuery query, CancellationToken cancellationToken)
         {
-            return await _dbContext.Gigs.FindAsync(request.Id);
+            var gig = await _gigsRepository.GetGigByIdAsync(query.Id);
+            var gigResponse = GigsMapper.Mapper.Map<GigsResponse>(gig);
+            return gigResponse;
         }
     }
 }

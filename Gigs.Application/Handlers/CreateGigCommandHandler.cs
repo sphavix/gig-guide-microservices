@@ -1,24 +1,37 @@
 using Gigs.Application.Commands;
+using Gigs.Application.Mappers;
+using Gigs.Application.Responses;
 using Gigs.Domain.Entities;
+using Gigs.Domain.Repositories;
 using Gigs.Infrastructure.Data;
 using MediatR;
 
 namespace Gigs.Application.Handlers
 {
-    public class CreateGigCommandHandler : IRequestHandler<CreateGigCommand>
+    public class CreateGigCommandHandler : IRequestHandler<CreateGigCommand, GigsResponse>
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IGigsRepository _gigRepository;
 
-        public CreateGigCommandHandler(ApplicationDbContext context)
+        public CreateGigCommandHandler(IGigsRepository gigsRepository)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _gigRepository = gigsRepository ?? throw new ArgumentNullException(nameof(gigsRepository));
         }
 
-        public async Task Handle(CreateGigCommand command, CancellationToken cancellationToken)
+        public async Task<GigsResponse> Handle(CreateGigCommand command, CancellationToken cancellationToken)
         {
-            _context.Gigs.Add(command.Gig);
+            // Map the command to the domain entity {Gig}
+            var gig = GigsMapper.Mapper.Map<Gig>(command);
+            if (gig is null)
+            {
+                throw new ApplicationException("Issue mapper the command to domain entity");
+            }
 
-            await _context.SaveChangesAsync();
+            // Add the mapped gig to the database
+            var newGig = await _gigRepository.CreateGigAsync(gig);
+
+            // Mapp the gig response back to the entity and return it as a response
+            var gigResponse = GigsMapper.Mapper.Map<GigsResponse>(newGig);
+            return gigResponse;
         }
 
 
