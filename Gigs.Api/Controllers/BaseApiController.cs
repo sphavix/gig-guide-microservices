@@ -9,6 +9,7 @@ namespace Gigs.Api.Controllers
     {
         private IMediator _mediator;
 
+        // Create the context for MediatR instead of calling DI everytime the instance is used.
         protected IMediator Mediator =>
             _mediator ??= HttpContext.RequestServices.GetService<IMediator>()!;
     }
