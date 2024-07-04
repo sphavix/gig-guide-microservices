@@ -1,6 +1,8 @@
 using System.Reflection;
 using Gigs.Application.Handlers;
+using Gigs.Domain.Repositories;
 using Gigs.Infrastructure.Data;
+using Gigs.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,7 +25,10 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetGigByIdQueryHandler).Assembly));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateGigCommandHandler).Assembly));
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped<IGigsRepository, GigsRepository>();
+
 
 var app = builder.Build();
 
