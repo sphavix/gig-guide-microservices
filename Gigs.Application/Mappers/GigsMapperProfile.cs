@@ -9,7 +9,7 @@ namespace Gigs.Application.Mappers
     {
         public GigsMapperProfile()
         {
-            CreateMap<Gig, GetGigsResponse>().ReverseMap();
+            CreateMap<Gig, GigsResponse>().ReverseMap();
             CreateMap<Gig, CreateGigCommand>().ReverseMap();
         }
     }
