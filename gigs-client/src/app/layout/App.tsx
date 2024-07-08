@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import axios from 'axios';
-import { Header, List } from 'semantic-ui-react';
+import { Container, Header, List } from 'semantic-ui-react';
 import { Gig } from '../models/gig';
+import NavBar from './NavBar';
+import GigsDashboard from '../../features/gigs/dashboard/GigsDashboard';
 
 function App() {
   const [gigs, setGigs] = useState<Gig[]>([]);
@@ -14,18 +16,12 @@ function App() {
   }, [])
 
   return (
-    <div>
-      <Header as='h2' icon='users' content='Local Gigs' />
-      <List>
-        {
-          gigs.map((gig) => (
-            <List.Item key={gig.id}>
-              {gig.title}
-            </List.Item>
-          ))
-        }
-      </List>
-    </div>
+    <Fragment>
+      <NavBar />
+        <Container style={{marginTop: '7em'}}>
+          <GigsDashboard gigs={gigs} />
+        </Container>
+    </Fragment>
   )
 }
 
