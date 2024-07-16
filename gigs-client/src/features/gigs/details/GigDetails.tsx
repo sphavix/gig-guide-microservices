@@ -4,10 +4,11 @@ import { Gig } from "../../../app/models/gig";
 
 interface Props{
     gig: Gig
+    cancelSelectGig: () => void;
 }
 
 
-export default function GigDetails({gig}: Props){
+export default function GigDetails({gig, cancelSelectGig}: Props){
     return (
        <Card fluid>
             <img src={`/assets/categoryImages/${gig.category}.jpg`} alt='gig' />
@@ -21,7 +22,7 @@ export default function GigDetails({gig}: Props){
             <Card.Content extra>
                 <Button.Group widths='2'>
                     <Button basic color='orange' content='Edit' />
-                    <Button basic color='red' content='Cancel' />
+                    <Button onClick={cancelSelectGig} basic color='red' content='Cancel' />
                 </Button.Group>
             </Card.Content> 
             <Card.Content extra>

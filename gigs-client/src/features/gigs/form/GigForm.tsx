@@ -5,12 +5,13 @@ export default function GigForm(){
     return (
         <Segment clearing>
             <Form>
-                <Form.Input placeHolder='Title' />
-                <Form.TextArea placeHolder='Description' />
-                <Form.Input placeHolder='Category' />
-                <Form.Input placeHolder='Date' />
-                <Form.Input placeHolder='City' />
-                <Form.Input placeHolder='Venue' />
+                
+                <Form.Input placeholder='Title' />
+                <Form.TextArea placeholder='Description' />
+                <Form.Input placeholder='Category' />
+                <Form.Input placeholder='Date' />
+                <Form.Input placeholder='City' />
+                <Form.Input placeholder='Venue' />
                 <Button floated='right' positive type='submit' content='Submit' />
                 <Button floated='right' type='button' content='Cancel' />
             </Form>
