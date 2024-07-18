@@ -5,9 +5,10 @@ import { Button, Item, Label, Segment } from 'semantic-ui-react';
 interface Props {
     gigs: Gig[];
     selectGig: (id: string) => void;
+    deleteGig: (id: string) => void;
 }
 
-export default function GigsList({gigs, selectGig}: Props){
+export default function GigsList({gigs, selectGig, deleteGig}: Props){
     return (
         <Segment>
             <Item.Group divided>
@@ -23,6 +24,7 @@ export default function GigsList({gigs, selectGig}: Props){
                             </Item.Description>
                             <Item.Extra>
                                 <Button onClick={() => selectGig(gig.id)} floated='right' content='View' color='blue' />
+                                <Button onClick={() => deleteGig(gig.id)} floated='right' content='Delete' color='red' />
                                 <Label basic content={gig.category} />
                             </Item.Extra>
                         </Item.Content>

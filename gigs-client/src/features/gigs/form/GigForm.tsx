@@ -1,19 +1,49 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { Button, Form, Segment } from 'semantic-ui-react';
+import { Gig } from '../../../app/models/gig';
 
-export default function GigForm(){
+
+interface Props {
+    gig: Gig | undefined;
+    closeForm: () => void;
+    createOrEditGig: (gig: Gig) => void;
+}
+
+export default function GigForm({gig: selectedGig, closeForm, createOrEditGig}: Props){
+
+    const initalState = selectedGig ?? { //if gig is undefined, then use an empty object
+        id: '', 
+        title: '',
+        description: '',
+        category: '',
+        date: '',
+        city: '',
+        venue: ''
+    }
+
+    const [gig, setGigs] = useState(initalState);
+
+    function handleSubmit(){
+        createOrEditGig(gig);
+    }
+
+    function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>){
+        const {name, value} = event.target;
+        setGigs({...gig, [name]: value}) //spread the gig and set values from the inputs
+    }
+
     return (
         <Segment clearing>
-            <Form>
+            <Form onSubmit={handleSubmit} autoComplete='off'>
                 
-                <Form.Input placeholder='Title' />
-                <Form.TextArea placeholder='Description' />
-                <Form.Input placeholder='Category' />
-                <Form.Input placeholder='Date' />
-                <Form.Input placeholder='City' />
-                <Form.Input placeholder='Venue' />
-                <Button floated='right' positive type='submit' content='Submit' />
-                <Button floated='right' type='button' content='Cancel' />
+                <Form.Input placeholder='Title' value={gig.title} name='title' onChange={handleInputChange} />
+                <Form.TextArea placeholder='Description' value={gig.description} name='description' onChange={handleInputChange} />
+                <Form.Input placeholder='Category' value={gig.category} name='category' onChange={handleInputChange} />
+                <Form.Input placeholder='Date' value={gig.date} name='date' onChange={handleInputChange} />
+                <Form.Input placeholder='City' value={gig.city} name='city' onChange={handleInputChange} />
+                <Form.Input placeholder='Venue' value={gig.venue} name='venue' onChange={handleInputChange} />
+                <Button  floated='right' positive type='submit' content='Submit' />
+                <Button onClick={closeForm} floated='right' type='button' content='Cancel' />
             </Form>
         </Segment>
     )

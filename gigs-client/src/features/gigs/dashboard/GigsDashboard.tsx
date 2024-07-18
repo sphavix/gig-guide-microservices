@@ -10,21 +10,31 @@ interface Props {
     selectedGig: Gig | undefined;
     selectGig: (id: string) => void;
     cancelSelectGig: () => void;
+    editMode: boolean;
+    openForm: (id: string) => void;
+    closeForm: () => void;
+    createOrEditGig: (gig: Gig) => void;
+    deleteGig: (id: string) => void;
 }
 
 //destructure or overload the function with properties
 export default function GigsDashboard({gigs, selectedGig, selectGig, 
-    cancelSelectGig}: Props) {
+    cancelSelectGig, editMode, openForm, closeForm, createOrEditGig, deleteGig}: Props) {
     return (
         <Grid>
             <Grid.Column width='10'>
-                <GigsList gigs={gigs} selectGig={selectGig} />
+                <GigsList gigs={gigs} selectGig={selectGig} deleteGig={deleteGig} />
             </Grid.Column>
 
             <Grid.Column width='6'>
-                {selectedGig &&
-               <GigDetails gig={selectedGig} cancelSelectGig={cancelSelectGig} />}
-               <GigForm />
+                {selectedGig && !editMode &&
+               <GigDetails gig={selectedGig} 
+               cancelSelectGig={cancelSelectGig} 
+               openForm={openForm}
+               
+               />}
+               {editMode &&
+               <GigForm closeForm={closeForm} gig={selectedGig} createOrEditGig={createOrEditGig} />}
             </Grid.Column>
         </Grid>
     )
