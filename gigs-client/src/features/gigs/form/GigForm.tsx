@@ -39,7 +39,7 @@ export default function GigForm({gig: selectedGig, closeForm, createOrEditGig}: 
                 <Form.Input placeholder='Title' value={gig.title} name='title' onChange={handleInputChange} />
                 <Form.TextArea placeholder='Description' value={gig.description} name='description' onChange={handleInputChange} />
                 <Form.Input placeholder='Category' value={gig.category} name='category' onChange={handleInputChange} />
-                <Form.Input placeholder='Date' value={gig.date} name='date' onChange={handleInputChange} />
+                <Form.Input type='date' placeholder='Date' value={gig.date} name='date' onChange={handleInputChange} />
                 <Form.Input placeholder='City' value={gig.city} name='city' onChange={handleInputChange} />
                 <Form.Input placeholder='Venue' value={gig.venue} name='venue' onChange={handleInputChange} />
                 <Button  floated='right' positive type='submit' content='Submit' />

@@ -1,10 +1,10 @@
 import { Fragment, useEffect, useState } from 'react'
-import axios from 'axios';
 import { Container } from 'semantic-ui-react';
 import { Gig } from '../models/gig';
 import NavBar from './NavBar';
 import GigsDashboard from '../../features/gigs/dashboard/GigsDashboard';
 import {v4 as uuid} from 'uuid';
+import agent from '../api/agent';
 
 function App() {
   const [gigs, setGigs] = useState<Gig[]>([]);
@@ -17,9 +17,14 @@ function App() {
 
 
   useEffect(() => {
-    axios.get<Gig[]>('http://localhost:5001/api/gigs/getallgigs')
-        .then(respons => {
-          setGigs(respons.data)
+    agent.Gigs.list()
+        .then(response => {
+          let gigs: Gig[] = [];
+          response.forEach(gig => {
+            gig.date = gig.date.split('T')[0]; // Exclude the time info taking the first split of the date info
+            gigs.push(gig);
+          })
+          setGigs(response)
         })
   }, [])
 
