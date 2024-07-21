@@ -7,9 +7,10 @@ interface Props {
     gig: Gig | undefined;
     closeForm: () => void;
     createOrEditGig: (gig: Gig) => void;
+    submitting: boolean;
 }
 
-export default function GigForm({gig: selectedGig, closeForm, createOrEditGig}: Props){
+export default function GigForm({gig: selectedGig, closeForm, createOrEditGig, submitting}: Props){
 
     const initalState = selectedGig ?? { //if gig is undefined, then use an empty object
         id: '', 
@@ -42,7 +43,7 @@ export default function GigForm({gig: selectedGig, closeForm, createOrEditGig}: 
                 <Form.Input type='date' placeholder='Date' value={gig.date} name='date' onChange={handleInputChange} />
                 <Form.Input placeholder='City' value={gig.city} name='city' onChange={handleInputChange} />
                 <Form.Input placeholder='Venue' value={gig.venue} name='venue' onChange={handleInputChange} />
-                <Button  floated='right' positive type='submit' content='Submit' />
+                <Button loading={submitting} floated='right' positive type='submit' content='Submit' />
                 <Button onClick={closeForm} floated='right' type='button' content='Cancel' />
             </Form>
         </Segment>

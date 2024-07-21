@@ -19,6 +19,9 @@ function App() {
   // set state for loading and delay
   const [loading, setLoading] = useState(true);
 
+  // Check if we are submitting
+  const [submitting, setSubmitting] = useState(false);
+
 
   useEffect(() => {
     agent.Gigs.list()
@@ -51,9 +54,23 @@ function App() {
   }
 
   function handleCreateOrEditGig(gig: Gig){
-    gig.id ? setGigs([...gigs.filter(g => g.id !== gig.id), gig]) : setGigs([...gigs, {...gig, id: uuid()}]);
-    setEditMode(false);
-    setSelectedGig(gig);
+    setSubmitting(true);
+    if(gig.id){
+      agent.Gigs.update(gig).then(() => {
+        setGigs([...gigs.filter(g => g.id !== gig.id), gig])
+        setSelectedGig(gig);
+        setEditMode(false);
+        setSubmitting(false);
+      })
+    }else{
+      gig.id = uuid();
+      agent.Gigs.create(gig).then(() => {
+        setGigs([...gigs, gig])
+        setSelectedGig(gig);
+        setEditMode(false);
+        setSubmitting(false);
+      })
+    }
   }
 
   function handleDeleteGig(id: string){
@@ -75,7 +92,7 @@ function App() {
           closeForm={handleFormClose}
           createOrEditGig={handleCreateOrEditGig}
           deleteGig={handleDeleteGig}
-          
+          submitting={submitting}
           />
         </Container>
     </Fragment>
