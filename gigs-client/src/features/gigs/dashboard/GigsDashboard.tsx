@@ -20,11 +20,16 @@ interface Props {
 
 //destructure or overload the function with properties
 export default function GigsDashboard({gigs, selectedGig, selectGig, 
-    cancelSelectGig, editMode, openForm, closeForm, createOrEditGig, deleteGig, submitting}: Props) {
+    cancelSelectGig, editMode, openForm, closeForm, createOrEditGig, 
+    deleteGig, submitting}: Props) {
     return (
         <Grid>
             <Grid.Column width='10'>
-                <GigsList gigs={gigs} selectGig={selectGig} deleteGig={deleteGig} />
+                <GigsList gigs={gigs} 
+                    selectGig={selectGig} 
+                    deleteGig={deleteGig}
+                    submitting={submitting} />
+                    
             </Grid.Column>
 
             <Grid.Column width='6'>

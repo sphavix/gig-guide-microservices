@@ -74,7 +74,11 @@ function App() {
   }
 
   function handleDeleteGig(id: string){
-    setGigs([...gigs.filter(g => g.id !== id)]);
+    setSubmitting(true);
+    agent.Gigs.delete(id).then(() => {
+      setGigs([...gigs.filter(g => g.id !== id)]);
+      setSubmitting(false);
+    })
   }
 
   if(loading) return <LoadingComponent content='Loading App' />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import { Gig } from '../../../app/models/gig';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
 
@@ -6,9 +6,17 @@ interface Props {
     gigs: Gig[];
     selectGig: (id: string) => void;
     deleteGig: (id: string) => void;
+    submitting: boolean;
 }
 
-export default function GigsList({gigs, selectGig, deleteGig}: Props){
+export default function GigsList({gigs, selectGig, deleteGig, submitting}: Props){
+    
+    const [target, setTarget] = useState('');
+
+    function handleGigDelete(event: SyntheticEvent<HTMLButtonElement>, id: string){
+        setTarget(event.currentTarget.name);
+        deleteGig(id);
+    }
     return (
         <Segment>
             <Item.Group divided>
@@ -24,7 +32,11 @@ export default function GigsList({gigs, selectGig, deleteGig}: Props){
                             </Item.Description>
                             <Item.Extra>
                                 <Button onClick={() => selectGig(gig.id)} floated='right' content='View' color='blue' />
-                                <Button onClick={() => deleteGig(gig.id)} floated='right' content='Delete' color='red' />
+                                <Button 
+                                name={gig.id}
+                                loading={submitting && target==gig.id} 
+                                onClick={(event) => handleGigDelete(event, gig.id)} 
+                                floated='right' content='Delete' color='red' />
                                 <Label basic content={gig.category} />
                             </Item.Extra>
                         </Item.Content>
