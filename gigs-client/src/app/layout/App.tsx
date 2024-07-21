@@ -5,6 +5,7 @@ import NavBar from './NavBar';
 import GigsDashboard from '../../features/gigs/dashboard/GigsDashboard';
 import {v4 as uuid} from 'uuid';
 import agent from '../api/agent';
+import LoadingComponent from './LoadingComponent';
 
 function App() {
   const [gigs, setGigs] = useState<Gig[]>([]);
@@ -15,6 +16,9 @@ function App() {
   // Use State to the component when Editing and item
   const [editMode, setEditMode] = useState(false);
 
+  // set state for loading and delay
+  const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     agent.Gigs.list()
@@ -24,7 +28,8 @@ function App() {
             gig.date = gig.date.split('T')[0]; // Exclude the time info taking the first split of the date info
             gigs.push(gig);
           })
-          setGigs(response)
+          setGigs(response);
+          setLoading(false);
         })
   }, [])
 
@@ -54,6 +59,8 @@ function App() {
   function handleDeleteGig(id: string){
     setGigs([...gigs.filter(g => g.id !== id)]);
   }
+
+  if(loading) return <LoadingComponent content='Loading App' />
 
   return (
     <Fragment>
