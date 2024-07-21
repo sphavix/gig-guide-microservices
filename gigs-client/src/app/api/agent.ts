@@ -30,11 +30,11 @@ const requests = {
 }
 
 const Gigs = {
-    list: () => requests.get<Gig[]>('/gigs/getallgigs'),
-    details: (id: string) => requests.get<Gig>(`/gigs/GetGigById/${id}`),
-    create: (gig: Gig) => requests.post<void>('/gigs/CreateGig', gig),
-    update: (gig: Gig) => requests.put<void>(`/gigs/UpdateGig`, gig),
-    delete: (id: string) => requests.del<Gig>(`/gigs/DeleteGig/${id}`)
+    list: () => requests.get<Gig[]>('/gigs'),
+    details: (id: string) => requests.get<Gig>(`/gigs/${id}`),
+    create: (gig: Gig) => requests.post<void>('/gigs', gig),
+    update: (gig: Gig) => requests.put<void>(`/gigs`, gig),
+    delete: (id: string) => requests.del<void>(`/gigs/${id}`)
 }
 
 const agent = {

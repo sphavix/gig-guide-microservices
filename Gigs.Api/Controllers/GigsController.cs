@@ -12,7 +12,7 @@ namespace Gigs.Api.Controllers
     {
 
         [HttpGet]
-        [Route("GetAllGigs")]
+        //[Route("GetAllGigs")]
         [ProducesResponseType(typeof(IList<GigsResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<GigsResponse>>> GetGigs()
         {
@@ -20,7 +20,7 @@ namespace Gigs.Api.Controllers
             return Ok(gigs);
         }
 
-        [HttpGet("[action]/{id}", Name = "GetGigById")]
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(GigsResponse), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<GigsResponse>> GetGig(Guid id)
         {
@@ -30,7 +30,7 @@ namespace Gigs.Api.Controllers
         }
 
         [HttpPost]
-        [Route("CreateGig")]
+        //[Route("CreateGig")]
         [ProducesResponseType(typeof(GigsResponse),(int)HttpStatusCode.OK)]
         public async Task<ActionResult<GigsResponse>> CreateGig([FromBody] CreateGigCommand command)
         {
@@ -39,7 +39,7 @@ namespace Gigs.Api.Controllers
         }
 
         [HttpPut]
-        [Route("UpdateGig")]
+        //[Route("UpdateGig")]
         [ProducesResponseType(typeof(GigsResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateGig([FromBody] UpdateGigCommand command)
         {
@@ -47,13 +47,11 @@ namespace Gigs.Api.Controllers
             return Ok(gig);
         }
 
-        [HttpDelete]
-        [Route("{id}", Name = "DeleteGig")]
-        [ProducesResponseType(typeof(GigsResponse), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> DeleteProduct(Guid id)
+        [HttpDelete("{id}")]
+        //[Route("{id}", Name = "DeleteGig")]
+        public async Task<IActionResult> DeleteGig(Guid id)
         {
-            var query = new DeleteGigByIdQuery(id);
-            var result = await Mediator.Send(query);
+            var result = await Mediator.Send(new DeleteGigCommand { Id = id});
             return Ok(result);
         }
     }
