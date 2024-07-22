@@ -12,7 +12,6 @@ namespace Gigs.Api.Controllers
     {
 
         [HttpGet]
-        //[Route("GetAllGigs")]
         [ProducesResponseType(typeof(IList<GigsResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<GigsResponse>>> GetGigs()
         {
@@ -30,7 +29,6 @@ namespace Gigs.Api.Controllers
         }
 
         [HttpPost]
-        //[Route("CreateGig")]
         [ProducesResponseType(typeof(GigsResponse),(int)HttpStatusCode.OK)]
         public async Task<ActionResult<GigsResponse>> CreateGig([FromBody] CreateGigCommand command)
         {
@@ -39,7 +37,6 @@ namespace Gigs.Api.Controllers
         }
 
         [HttpPut]
-        //[Route("UpdateGig")]
         [ProducesResponseType(typeof(GigsResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateGig([FromBody] UpdateGigCommand command)
         {
@@ -48,7 +45,6 @@ namespace Gigs.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        //[Route("{id}", Name = "DeleteGig")]
         public async Task<IActionResult> DeleteGig(Guid id)
         {
             var result = await Mediator.Send(new DeleteGigCommand { Id = id});
