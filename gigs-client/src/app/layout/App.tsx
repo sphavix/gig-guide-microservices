@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
-import { Container } from 'semantic-ui-react';
+import { Button, Container } from 'semantic-ui-react';
 import { Gig } from '../models/gig';
 import NavBar from './NavBar';
 import GigsDashboard from '../../features/gigs/dashboard/GigsDashboard';
@@ -7,6 +7,7 @@ import {v4 as uuid} from 'uuid';
 import agent from '../api/agent';
 import LoadingComponent from './LoadingComponent';
 import { useStore } from '../stores/store';
+import { observer } from 'mobx-react-lite';
 
 function App() {
   const {gigStore} = useStore();
@@ -91,6 +92,7 @@ function App() {
       <NavBar openForm={handleFormOpen} />
         <Container style={{marginTop: '7em'}}>
           <h2>{gigStore.title}</h2>
+          <Button content='Add Exclamation!' positive onClick={gigStore.setTitle} />
           <GigsDashboard gigs={gigs}
           selectedGig={selectedGig}
           selectGig={handleSelectedGig}
@@ -107,4 +109,4 @@ function App() {
   )
 }
 
-export default App
+export default observer(App);

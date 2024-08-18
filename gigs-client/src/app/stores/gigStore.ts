@@ -1,12 +1,14 @@
-import { makeObservable } from "mobx";
+import { makeAutoObservable } from "mobx";
 
 export default class GigStore {
     title = 'Hello from Mobx';
 
 
     constructor(){
-        makeObservable(this, {
-            
-        })
+        makeAutoObservable(this)
+    }
+
+    setTitle = () => {
+        this.title = this.title + '!';
     }
 }
