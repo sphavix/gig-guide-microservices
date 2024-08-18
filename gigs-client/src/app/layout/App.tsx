@@ -6,8 +6,11 @@ import GigsDashboard from '../../features/gigs/dashboard/GigsDashboard';
 import {v4 as uuid} from 'uuid';
 import agent from '../api/agent';
 import LoadingComponent from './LoadingComponent';
+import { useStore } from '../stores/store';
 
 function App() {
+  const {gigStore} = useStore();
+
   const [gigs, setGigs] = useState<Gig[]>([]);
 
   // Use State to set selected gig. Then set it down through the details and dashboard.
@@ -87,6 +90,7 @@ function App() {
     <Fragment>
       <NavBar openForm={handleFormOpen} />
         <Container style={{marginTop: '7em'}}>
+          <h2>{gigStore.title}</h2>
           <GigsDashboard gigs={gigs}
           selectedGig={selectedGig}
           selectGig={handleSelectedGig}
